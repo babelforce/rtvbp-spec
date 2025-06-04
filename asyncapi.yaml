@@ -1,0 +1,321 @@
+asyncapi: 3.0.0
+id: urn:com.babelforce:rtvbp
+info:
+  title: Realtime Voice Bridge Protocol
+  version: 1.0.0
+defaultContentType: application/json
+channels:
+  stream:
+    address: /stream
+    messages:
+      RecordingStartRequestMessage:
+        $ref: '#/components/messages/RecordingStartRequestMessage'
+      RecordingStartResponseMessage:
+        $ref: '#/components/messages/RecordingStartResponseMessage'
+      RecordingStopRequestMessage:
+        $ref: '#/components/messages/RecordingStopRequestMessage'
+      RecordingStopResponseMessage:
+        $ref: '#/components/messages/RecordingStopResponseMessage'
+      RecordingFinishedEventMessage:
+        $ref: '#/components/messages/RecordingFinishedEventMessage'
+      SessionUpdatedEventMessage:
+        $ref: '#/components/messages/SessionUpdatedEventMessage'
+components:
+  schemas:
+    RecordingStartRequestPayload:
+      type: object
+      additionalProperties: false
+      allOf:
+      - $ref: '#/components/schemas/Header'
+      - title: RecordingStartRequest
+        properties:
+          kind:
+            type: string
+            enum:
+            - request
+          method:
+            type: string
+            const: recording_start
+          data:
+            $ref: '#/components/schemas/RecordingStartRequest'
+        additionalProperties: false
+        required:
+        - kind
+        - method
+        - data
+      example:
+        id: '1234'
+        ts: 1748997628216
+        kind: request
+        method: recording_start
+        data:
+          tags:
+          - tag1
+          - tag2
+    Header:
+      type: object
+      properties:
+        id:
+          description: Message ID
+          type: string
+        ts:
+          description: Timestamp
+          type: string
+          format: date-time
+      additionalProperties: false
+      required:
+      - id
+      - ts
+    RecordingStartRequest:
+      type: object
+      properties:
+        tags:
+          description: Tags to store alongside the Recording
+          type:
+          - array
+          - 'null'
+          uniqueItems: true
+          items:
+            type: string
+      additionalProperties: false
+      required:
+      - tags
+    RecordingStartResponsePayload:
+      type: object
+      additionalProperties: false
+      allOf:
+      - $ref: '#/components/schemas/Header'
+      - title: RecordingStartResponse
+        properties:
+          kind:
+            type: string
+            enum:
+            - response
+          request_id:
+            type: string
+          status:
+            $ref: '#/components/schemas/ResponseStatus'
+          data:
+            $ref: '#/components/schemas/RecordingStartResponse'
+        additionalProperties: false
+        required:
+        - kind
+        - request_id
+        - data
+      example:
+        id: Wi0oV8V3TGGYwixYhTlGa
+        ts: 1748997628216
+        kind: response
+        request_id: 1oSUNPDjYqP_kdCo4ubHJ
+        status: Ok
+        data:
+          recording_id: '12345'
+    ResponseStatus:
+      type: string
+      enum:
+      - Ok
+      - NotFound
+      - InternalServerError
+    RecordingStartResponse:
+      type: object
+      properties:
+        recording_id:
+          type: string
+      additionalProperties: false
+      required:
+      - recording_id
+    RecordingStopRequestPayload:
+      type: object
+      additionalProperties: false
+      allOf:
+      - $ref: '#/components/schemas/Header'
+      - title: RecordingStopRequest
+        properties:
+          kind:
+            type: string
+            enum:
+            - request
+          method:
+            type: string
+            const: recording_stop
+          data:
+            $ref: '#/components/schemas/RecordingStopRequest'
+        additionalProperties: false
+        required:
+        - kind
+        - method
+        - data
+      example:
+        id: '1234'
+        ts: 1748997628216
+        kind: request
+        method: recording_stop
+        data: null
+    RecordingStopRequest:
+      type: 'null'
+    RecordingStopResponsePayload:
+      type: object
+      additionalProperties: false
+      allOf:
+      - $ref: '#/components/schemas/Header'
+      - title: RecordingStopResponse
+        properties:
+          kind:
+            type: string
+            enum:
+            - response
+          request_id:
+            type: string
+          status:
+            $ref: '#/components/schemas/ResponseStatus'
+          data:
+            $ref: '#/components/schemas/RecordingStopResponse'
+        additionalProperties: false
+        required:
+        - kind
+        - request_id
+        - data
+      example:
+        id: bRD_t68sVzjs-0Lm4b8VL
+        ts: 1748997628216
+        kind: response
+        request_id: TDY5w9TN0-_SSBYzo6ag6
+        status: Ok
+        data: null
+    RecordingStopResponse:
+      type: 'null'
+    RecordingFinishedEventPayload:
+      type: object
+      additionalProperties: false
+      allOf:
+      - $ref: '#/components/schemas/Header'
+      - title: RecordingFinishedEvent
+        properties:
+          kind:
+            type: string
+            enum:
+            - event
+          method:
+            type: string
+            const: recording_finished
+          data:
+            $ref: '#/components/schemas/RecordingFinishedEvent'
+        additionalProperties: false
+        required:
+        - kind
+        - event
+        - data
+      example:
+        id: '1234567890'
+        ts: 1748997628216
+        kind: event
+        event: recording_finished
+        data:
+          recording_id: '12345'
+    RecordingFinishedEvent:
+      type: object
+      properties:
+        recording_id:
+          type: string
+      required:
+      - recording_id
+    SessionUpdatedEventPayload:
+      type: object
+      additionalProperties: false
+      allOf:
+      - $ref: '#/components/schemas/Header'
+      - title: SessionUpdatedEvent
+        properties:
+          kind:
+            type: string
+            enum:
+            - event
+          method:
+            type: string
+            const: session_updated
+          data:
+            $ref: '#/components/schemas/SessionUpdatedEvent'
+        additionalProperties: false
+        required:
+        - kind
+        - event
+        - data
+      example:
+        id: '1234567890'
+        ts: 1748997628217
+        kind: event
+        event: session_updated
+        data:
+          id: '1234'
+          metadata:
+            call.id: '1234'
+            call.from: '+493010001000'
+    SessionUpdatedEvent:
+      type: object
+      properties:
+        id:
+          description: Session ID
+          type: string
+        metadata:
+          description: Additional Metadata provided by the session owner
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+      required:
+      - id
+      - metadata
+  messages:
+    RecordingStartRequestMessage:
+      payload:
+        $ref: '#/components/schemas/RecordingStartRequestPayload'
+    RecordingStartResponseMessage:
+      payload:
+        $ref: '#/components/schemas/RecordingStartResponsePayload'
+    RecordingStopRequestMessage:
+      payload:
+        $ref: '#/components/schemas/RecordingStopRequestPayload'
+    RecordingStopResponseMessage:
+      payload:
+        $ref: '#/components/schemas/RecordingStopResponsePayload'
+    RecordingFinishedEventMessage:
+      payload:
+        $ref: '#/components/schemas/RecordingFinishedEventPayload'
+    SessionUpdatedEventMessage:
+      payload:
+        $ref: '#/components/schemas/SessionUpdatedEventPayload'
+operations:
+  RecordingStart:
+    channel:
+      $ref: '#/channels/stream'
+    action: send
+    messages:
+    - $ref: '#/channels/stream/messages/RecordingStartRequestMessage'
+    reply:
+      channel:
+        $ref: '#/channels/stream'
+      messages:
+      - $ref: '#/channels/stream/messages/RecordingStartResponseMessage'
+  RecordingStop:
+    channel:
+      $ref: '#/channels/stream'
+    action: send
+    messages:
+    - $ref: '#/channels/stream/messages/RecordingStopRequestMessage'
+    reply:
+      channel:
+        $ref: '#/channels/stream'
+      messages:
+      - $ref: '#/channels/stream/messages/RecordingStopResponseMessage'
+  RecordingFinished:
+    channel:
+      $ref: '#/channels/stream'
+    action: receive
+    messages:
+    - $ref: '#/channels/stream/messages/RecordingFinishedEventMessage'
+  SessionUpdated:
+    channel:
+      $ref: '#/channels/stream'
+    action: receive
+    messages:
+    - $ref: '#/channels/stream/messages/SessionUpdatedEventMessage'
