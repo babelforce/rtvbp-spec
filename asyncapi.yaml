@@ -45,13 +45,13 @@ components:
         - data
       example:
         id: '1234'
-        ts: 1748997628216
+        ts: 1749073063025
         kind: request
         method: recording_start
         data:
           tags:
-          - tag1
           - tag2
+          - tag1
     Header:
       type: object
       properties:
@@ -103,10 +103,10 @@ components:
         - request_id
         - data
       example:
-        id: Wi0oV8V3TGGYwixYhTlGa
-        ts: 1748997628216
+        id: oVHzsZK1j7Adj0fSYlMKb
+        ts: 1749073063025
         kind: response
-        request_id: 1oSUNPDjYqP_kdCo4ubHJ
+        request_id: f8AXoqw-HuIBnMRNdp1yl
         status: Ok
         data:
           recording_id: '12345'
@@ -147,7 +147,7 @@ components:
         - data
       example:
         id: '1234'
-        ts: 1748997628216
+        ts: 1749073063026
         kind: request
         method: recording_stop
         data: null
@@ -176,10 +176,10 @@ components:
         - request_id
         - data
       example:
-        id: bRD_t68sVzjs-0Lm4b8VL
-        ts: 1748997628216
+        id: I2V7Wnh6gctAFgjpD7xNN
+        ts: 1749073063026
         kind: response
-        request_id: TDY5w9TN0-_SSBYzo6ag6
+        request_id: 0HNIRQokg1cF9G0zPCiw9
         status: Ok
         data: null
     RecordingStopResponse:
@@ -195,7 +195,7 @@ components:
             type: string
             enum:
             - event
-          method:
+          event:
             type: string
             const: recording_finished
           data:
@@ -207,7 +207,7 @@ components:
         - data
       example:
         id: '1234567890'
-        ts: 1748997628216
+        ts: 1749073063026
         kind: event
         event: recording_finished
         data:
@@ -230,7 +230,7 @@ components:
             type: string
             enum:
             - event
-          method:
+          event:
             type: string
             const: session_updated
           data:
@@ -242,7 +242,7 @@ components:
         - data
       example:
         id: '1234567890'
-        ts: 1748997628217
+        ts: 1749073063026
         kind: event
         event: session_updated
         data:
