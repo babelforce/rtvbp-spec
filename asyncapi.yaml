@@ -44,14 +44,14 @@ components:
         - method
         - data
       example:
-        id: '1234'
-        ts: 1749073063025
+        id: VPk_6IQStguK0vJrdJ4mT
+        ts: 1431648000
         kind: request
         method: recording_start
         data:
           tags:
-          - tag2
           - tag1
+          - tag2
     Header:
       type: object
       properties:
@@ -60,8 +60,8 @@ components:
           type: string
         ts:
           description: Timestamp
-          type: string
-          format: date-time
+          type: integer
+          format: int64
       additionalProperties: false
       required:
       - id
@@ -103,13 +103,13 @@ components:
         - request_id
         - data
       example:
-        id: oVHzsZK1j7Adj0fSYlMKb
-        ts: 1749073063025
+        id: VPk_6IQStguK0vJrdJ4mT
+        ts: 1431648000
         kind: response
-        request_id: f8AXoqw-HuIBnMRNdp1yl
+        request_id: VPk_6IQStguK0vJrdJ4mT
         status: Ok
         data:
-          recording_id: '12345'
+          recording_id: VPk_6IQStguK0vJrdJ4mT
     ResponseStatus:
       type: string
       enum:
@@ -146,8 +146,8 @@ components:
         - method
         - data
       example:
-        id: '1234'
-        ts: 1749073063026
+        id: VPk_6IQStguK0vJrdJ4mT
+        ts: 1431648000
         kind: request
         method: recording_stop
         data: null
@@ -176,10 +176,10 @@ components:
         - request_id
         - data
       example:
-        id: I2V7Wnh6gctAFgjpD7xNN
-        ts: 1749073063026
+        id: VPk_6IQStguK0vJrdJ4mT
+        ts: 1431648000
         kind: response
-        request_id: 0HNIRQokg1cF9G0zPCiw9
+        request_id: VPk_6IQStguK0vJrdJ4mT
         status: Ok
         data: null
     RecordingStopResponse:
@@ -206,12 +206,12 @@ components:
         - event
         - data
       example:
-        id: '1234567890'
-        ts: 1749073063026
+        id: VPk_6IQStguK0vJrdJ4mT
+        ts: 1431648000
         kind: event
         event: recording_finished
         data:
-          recording_id: '12345'
+          recording_id: VPk_6IQStguK0vJrdJ4mT
     RecordingFinishedEvent:
       type: object
       properties:
@@ -241,8 +241,8 @@ components:
         - event
         - data
       example:
-        id: '1234567890'
-        ts: 1749073063026
+        id: VPk_6IQStguK0vJrdJ4mT
+        ts: 1431648000
         kind: event
         event: session_updated
         data:
