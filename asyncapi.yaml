@@ -392,13 +392,16 @@ components:
           session_id: VPk_6IQStguK0vJrdJ4mT
           capabilities:
             events:
-            - session_updated
             - session_terminated
+            - session_updated
             requests:
+            - recording_start
             - call_hangup
             - recording_stop
-            - recording_start
-            audio: null
+            audio:
+              direction: both
+              codecs:
+              - alaw
           metadata:
             call.id: '1234'
             call.from: '+493010001000'
@@ -439,13 +442,13 @@ components:
         audio:
           description: Audio capabilities - set when audio is enabled on the session
           anyOf:
-          - $ref: '#/components/schemas/AudioCapability'
+          - $ref: '#/components/schemas/AudioCapabilities'
           - type: 'null'
       required:
       - events
       - requests
       - audio
-    AudioCapability:
+    AudioCapabilities:
       type: object
       properties:
         direction:
