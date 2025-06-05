@@ -249,7 +249,13 @@ components:
           session_id: VPk_6IQStguK0vJrdJ4mT
           capabilities:
             events:
+            - session_terminated
             - session_updated
+            requests:
+            - call_hangup
+            - recording_stop
+            - recording_start
+            audio: null
           metadata:
             call.id: '1234'
             call.from: '+493010001000'
@@ -276,13 +282,52 @@ components:
       type: object
       properties:
         events:
-          description: List of events which will be dispatcheg the lifetime of the session
+          description: List of events which will be dispatched the lifetime of the session
           type: array
           uniqueItems: true
           items:
             type: string
+        requests:
+          description: List of requests which are allowed to be sent to the session
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        audio:
+          description: Audio capabilities - set when audio is enabled on the session
+          anyOf:
+          - $ref: '#/components/schemas/AudioCapability'
+          - type: 'null'
       required:
       - events
+      - requests
+      - audio
+    AudioCapability:
+      type: object
+      properties:
+        direction:
+          $ref: '#/components/schemas/AudioDirection'
+        codec:
+          $ref: '#/components/schemas/AudioCodec'
+      required:
+      - direction
+      - codec
+    AudioDirection:
+      oneOf:
+      - description: Audio flows into both directions
+        type: string
+        const: both
+      - description: Audio can flow into the session owning side
+        type: string
+        const: in
+      - description: Audio can flow out of the session owning side
+        type: string
+        const: out
+    AudioCodec:
+      type: string
+      enum:
+      - slin
+      - alaw
   messages:
     RecordingStartRequestMessage:
       payload:
