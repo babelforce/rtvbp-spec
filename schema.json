@@ -456,22 +456,6 @@
             "properties": {
               "event": {
                 "type": "string",
-                "const": "audio_stream_started"
-              },
-              "data": {
-                "$ref": "#/components/schemas/AudioStreamStartedEvent"
-              }
-            },
-            "required": [
-              "event",
-              "data"
-            ]
-          },
-          {
-            "type": "object",
-            "properties": {
-              "event": {
-                "type": "string",
                 "const": "audio_stream_data_received"
               },
               "data": {
@@ -578,46 +562,6 @@
             ]
           }
         ]
-      },
-      "AudioStreamStartedEvent": {
-        "type": "object",
-        "properties": {
-          "channels": {
-            "type": [
-              "integer",
-              "null"
-            ],
-            "format": "uint8",
-            "minimum": 0,
-            "maximum": 255
-          },
-          "sample_rate": {
-            "type": [
-              "integer",
-              "null"
-            ],
-            "format": "uint32",
-            "minimum": 0
-          },
-          "sample_size": {
-            "type": [
-              "integer",
-              "null"
-            ],
-            "format": "uint8",
-            "minimum": 0,
-            "maximum": 255
-          },
-          "bits_per_sample": {
-            "type": [
-              "integer",
-              "null"
-            ],
-            "format": "uint8",
-            "minimum": 0,
-            "maximum": 255
-          }
-        }
       },
       "ErrorEvent": {
         "type": "object",
