@@ -574,7 +574,7 @@
       "AudioStreamBufferAppendEvent": {
         "type": "object",
         "properties": {
-          "data": {
+          "buffer": {
             "type": "array",
             "items": {
               "type": "integer",
@@ -585,7 +585,7 @@
           }
         },
         "required": [
-          "data"
+          "buffer"
         ]
       },
       "ErrorEvent": {

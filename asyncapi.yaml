@@ -611,7 +611,7 @@ components:
         kind: event
         event: audio_stream_buffer_append
         data:
-          data:
+          buffer:
           - 0
           - 1
           - 2
@@ -619,7 +619,7 @@ components:
     AudioStreamBufferAppendEvent:
       type: object
       properties:
-        data:
+        buffer:
           type: array
           items:
             type: integer
@@ -627,7 +627,7 @@ components:
             minimum: 0
             maximum: 255
       required:
-      - data
+      - buffer
   messages:
     PingRequestMessage:
       payload:
