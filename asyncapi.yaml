@@ -392,12 +392,12 @@ components:
           session_id: VPk_6IQStguK0vJrdJ4mT
           capabilities:
             events:
-            - session_terminated
             - session_updated
+            - session_terminated
             requests:
             - call_hangup
-            - recording_start
             - recording_stop
+            - recording_start
             audio: null
           metadata:
             call.id: '1234'
@@ -450,7 +450,7 @@ components:
       properties:
         direction:
           $ref: '#/components/schemas/AudioDirection'
-        codec:
+        codecs:
           description: Set of supported codecs
           type: array
           uniqueItems: true
@@ -458,7 +458,7 @@ components:
             $ref: '#/components/schemas/AudioCodec'
       required:
       - direction
-      - codec
+      - codecs
     AudioDirection:
       oneOf:
       - description: Audio flows into both directions
