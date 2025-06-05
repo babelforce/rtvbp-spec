@@ -392,11 +392,11 @@ components:
           session_id: VPk_6IQStguK0vJrdJ4mT
           capabilities:
             events:
-            - session_terminated
             - session_updated
+            - session_terminated
             requests:
-            - recording_start
             - call_hangup
+            - recording_start
             - recording_stop
             audio:
               direction: both
