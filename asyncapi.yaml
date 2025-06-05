@@ -8,6 +8,10 @@ channels:
   stream:
     address: /stream
     messages:
+      PingRequestMessage:
+        $ref: '#/components/messages/PingRequestMessage'
+      PingResponseMessage:
+        $ref: '#/components/messages/PingResponseMessage'
       AudioStreamStartRequestMessage:
         $ref: '#/components/messages/AudioStreamStartRequestMessage'
       AudioStreamStartResponseMessage:
@@ -32,6 +36,86 @@ channels:
         $ref: '#/components/messages/SessionTerminatedEventMessage'
 components:
   schemas:
+    PingRequestPayload:
+      type: object
+      additionalProperties: false
+      allOf:
+      - $ref: '#/components/schemas/Header'
+      - title: PingRequest
+        properties:
+          kind:
+            type: string
+            enum:
+            - request
+          method:
+            type: string
+            const: ping
+          data:
+            $ref: '#/components/schemas/PingRequest'
+        additionalProperties: false
+        required:
+        - kind
+        - method
+        - data
+      example:
+        id: VPk_6IQStguK0vJrdJ4mT
+        ts: 1431648000
+        kind: request
+        method: ping
+        data: null
+    Header:
+      type: object
+      properties:
+        id:
+          description: Message ID
+          type: string
+        ts:
+          description: Timestamp
+          type: integer
+          format: int64
+      additionalProperties: false
+      required:
+      - id
+      - ts
+    PingRequest:
+      type: 'null'
+    PingResponsePayload:
+      type: object
+      additionalProperties: false
+      allOf:
+      - $ref: '#/components/schemas/Header'
+      - title: PingResponse
+        properties:
+          kind:
+            type: string
+            enum:
+            - response
+          request_id:
+            type: string
+          status:
+            $ref: '#/components/schemas/ResponseStatus'
+          data:
+            $ref: '#/components/schemas/PingResponse'
+        additionalProperties: false
+        required:
+        - kind
+        - request_id
+        - data
+      example:
+        id: VPk_6IQStguK0vJrdJ4mT
+        ts: 1431648000
+        kind: response
+        request_id: VPk_6IQStguK0vJrdJ4mT
+        status: Ok
+        data: null
+    ResponseStatus:
+      type: string
+      enum:
+      - Ok
+      - NotFound
+      - InternalServerError
+    PingResponse:
+      type: 'null'
     AudioStreamStartRequestPayload:
       type: object
       additionalProperties: false
@@ -60,20 +144,6 @@ components:
         method: audio_stream_start
         data:
           codec: alaw
-    Header:
-      type: object
-      properties:
-        id:
-          description: Message ID
-          type: string
-        ts:
-          description: Timestamp
-          type: integer
-          format: int64
-      additionalProperties: false
-      required:
-      - id
-      - ts
     AudioStreamStartRequest:
       type: object
       properties:
@@ -117,12 +187,6 @@ components:
         request_id: VPk_6IQStguK0vJrdJ4mT
         status: Ok
         data: null
-    ResponseStatus:
-      type: string
-      enum:
-      - Ok
-      - NotFound
-      - InternalServerError
     AudioStreamStartResponse:
       type: 'null'
     AudioStreamStopRequestPayload:
@@ -519,6 +583,12 @@ components:
       - error
       - timeout
   messages:
+    PingRequestMessage:
+      payload:
+        $ref: '#/components/schemas/PingRequestPayload'
+    PingResponseMessage:
+      payload:
+        $ref: '#/components/schemas/PingResponsePayload'
     AudioStreamStartRequestMessage:
       payload:
         $ref: '#/components/schemas/AudioStreamStartRequestPayload'
@@ -553,6 +623,17 @@ components:
       payload:
         $ref: '#/components/schemas/SessionTerminatedEventPayload'
 operations:
+  Ping:
+    channel:
+      $ref: '#/channels/stream'
+    action: send
+    messages:
+    - $ref: '#/channels/stream/messages/PingRequestMessage'
+    reply:
+      channel:
+        $ref: '#/channels/stream'
+      messages:
+      - $ref: '#/channels/stream/messages/PingResponseMessage'
   AudioStreamStart:
     channel:
       $ref: '#/channels/stream'

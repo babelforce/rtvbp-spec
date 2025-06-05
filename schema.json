@@ -156,10 +156,14 @@
               "method": {
                 "type": "string",
                 "const": "recording_stop"
+              },
+              "params": {
+                "$ref": "#/components/schemas/RecordingStopRequest"
               }
             },
             "required": [
-              "method"
+              "method",
+              "params"
             ]
           },
           {
@@ -297,10 +301,14 @@
               "method": {
                 "type": "string",
                 "const": "ping"
+              },
+              "params": {
+                "$ref": "#/components/schemas/PingRequest"
               }
             },
             "required": [
-              "method"
+              "method",
+              "params"
             ]
           }
         ]
@@ -363,6 +371,9 @@
           "tags"
         ]
       },
+      "RecordingStopRequest": {
+        "type": "null"
+      },
       "PlaybackContent": {
         "anyOf": [
           {
@@ -416,6 +427,9 @@
             }
           }
         ]
+      },
+      "PingRequest": {
+        "type": "null"
       },
       "Response": {
         "type": "object",
