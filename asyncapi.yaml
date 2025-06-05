@@ -8,14 +8,14 @@ channels:
   stream:
     address: /stream
     messages:
-      audio_stream_startRequestMessage:
-        $ref: '#/components/messages/audio_stream_startRequestMessage'
-      audio_stream_startResponseMessage:
-        $ref: '#/components/messages/audio_stream_startResponseMessage'
-      audio_stream_stopRequestMessage:
-        $ref: '#/components/messages/audio_stream_stopRequestMessage'
-      audio_stream_stopResponseMessage:
-        $ref: '#/components/messages/audio_stream_stopResponseMessage'
+      AudioStreamStartRequestMessage:
+        $ref: '#/components/messages/AudioStreamStartRequestMessage'
+      AudioStreamStartResponseMessage:
+        $ref: '#/components/messages/AudioStreamStartResponseMessage'
+      AudioStreamStopRequestMessage:
+        $ref: '#/components/messages/AudioStreamStopRequestMessage'
+      AudioStreamStopResponseMessage:
+        $ref: '#/components/messages/AudioStreamStopResponseMessage'
       RecordingStartRequestMessage:
         $ref: '#/components/messages/RecordingStartRequestMessage'
       RecordingStartResponseMessage:
@@ -392,12 +392,12 @@ components:
           session_id: VPk_6IQStguK0vJrdJ4mT
           capabilities:
             events:
-            - session_updated
             - session_terminated
+            - session_updated
             requests:
-            - recording_stop
-            - recording_start
             - call_hangup
+            - recording_start
+            - recording_stop
             audio: null
           metadata:
             call.id: '1234'
@@ -516,18 +516,18 @@ components:
       - error
       - timeout
   messages:
-    audio_stream_startRequestMessage:
+    AudioStreamStartRequestMessage:
       payload:
-        $ref: '#/components/schemas/audio_stream_startRequestPayload'
-    audio_stream_startResponseMessage:
+        $ref: '#/components/schemas/AudioStreamStartRequestPayload'
+    AudioStreamStartResponseMessage:
       payload:
-        $ref: '#/components/schemas/audio_stream_startResponsePayload'
-    audio_stream_stopRequestMessage:
+        $ref: '#/components/schemas/AudioStreamStartResponsePayload'
+    AudioStreamStopRequestMessage:
       payload:
-        $ref: '#/components/schemas/audio_stream_stopRequestPayload'
-    audio_stream_stopResponseMessage:
+        $ref: '#/components/schemas/AudioStreamStopRequestPayload'
+    AudioStreamStopResponseMessage:
       payload:
-        $ref: '#/components/schemas/audio_stream_stopResponsePayload'
+        $ref: '#/components/schemas/AudioStreamStopResponsePayload'
     RecordingStartRequestMessage:
       payload:
         $ref: '#/components/schemas/RecordingStartRequestPayload'
@@ -550,28 +550,28 @@ components:
       payload:
         $ref: '#/components/schemas/SessionTerminatedEventPayload'
 operations:
-  audio_stream_start:
+  AudioStreamStart:
     channel:
       $ref: '#/channels/stream'
     action: send
     messages:
-    - $ref: '#/channels/stream/messages/audio_stream_startRequestMessage'
+    - $ref: '#/channels/stream/messages/AudioStreamStartRequestMessage'
     reply:
       channel:
         $ref: '#/channels/stream'
       messages:
-      - $ref: '#/channels/stream/messages/audio_stream_startResponseMessage'
-  audio_stream_stop:
+      - $ref: '#/channels/stream/messages/AudioStreamStartResponseMessage'
+  AudioStreamStop:
     channel:
       $ref: '#/channels/stream'
     action: send
     messages:
-    - $ref: '#/channels/stream/messages/audio_stream_stopRequestMessage'
+    - $ref: '#/channels/stream/messages/AudioStreamStopRequestMessage'
     reply:
       channel:
         $ref: '#/channels/stream'
       messages:
-      - $ref: '#/channels/stream/messages/audio_stream_stopResponseMessage'
+      - $ref: '#/channels/stream/messages/AudioStreamStopResponseMessage'
   RecordingStart:
     channel:
       $ref: '#/channels/stream'
