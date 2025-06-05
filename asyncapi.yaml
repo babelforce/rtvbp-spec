@@ -246,25 +246,23 @@ components:
         kind: event
         event: session_updated
         data:
-          id: '1234'
+          session_id: VPk_6IQStguK0vJrdJ4mT
           metadata:
             call.id: '1234'
             call.from: '+493010001000'
     SessionUpdatedEvent:
       type: object
       properties:
-        id:
-          description: Session ID
+        session_id:
+          description: Unique ID of the session
           type: string
         metadata:
-          description: Additional Metadata provided by the session owner
           type:
           - object
           - 'null'
           additionalProperties: true
       required:
-      - id
-      - metadata
+      - session_id
   messages:
     RecordingStartRequestMessage:
       payload:
