@@ -470,16 +470,10 @@
             "properties": {
               "event": {
                 "type": "string",
-                "const": "audio_stream_data_received"
+                "const": "audio_stream_buffer_append"
               },
               "data": {
-                "type": "array",
-                "items": {
-                  "type": "integer",
-                  "format": "uint8",
-                  "minimum": 0,
-                  "maximum": 255
-                }
+                "$ref": "#/components/schemas/AudioStreamBufferAppendEvent"
               }
             },
             "required": [
@@ -575,6 +569,23 @@
               "data"
             ]
           }
+        ]
+      },
+      "AudioStreamBufferAppendEvent": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0,
+              "maximum": 255
+            }
+          }
+        },
+        "required": [
+          "data"
         ]
       },
       "ErrorEvent": {

@@ -34,6 +34,8 @@ channels:
         $ref: '#/components/messages/SessionUpdatedEventMessage'
       SessionTerminatedEventMessage:
         $ref: '#/components/messages/SessionTerminatedEventMessage'
+      AudioStreamBufferAppendEventMessage:
+        $ref: '#/components/messages/AudioStreamBufferAppendEventMessage'
 components:
   schemas:
     PingRequestPayload:
@@ -582,6 +584,50 @@ components:
       - normal
       - error
       - timeout
+    AudioStreamBufferAppendEventPayload:
+      type: object
+      additionalProperties: false
+      allOf:
+      - $ref: '#/components/schemas/Header'
+      - title: AudioStreamBufferAppendEvent
+        properties:
+          kind:
+            type: string
+            enum:
+            - event
+          event:
+            type: string
+            const: audio_stream_buffer_append
+          data:
+            $ref: '#/components/schemas/AudioStreamBufferAppendEvent'
+        additionalProperties: false
+        required:
+        - kind
+        - event
+        - data
+      example:
+        id: VPk_6IQStguK0vJrdJ4mT
+        ts: 1431648000
+        kind: event
+        event: audio_stream_buffer_append
+        data:
+          data:
+          - 0
+          - 1
+          - 2
+          - 3
+    AudioStreamBufferAppendEvent:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: integer
+            format: uint8
+            minimum: 0
+            maximum: 255
+      required:
+      - data
   messages:
     PingRequestMessage:
       payload:
@@ -622,6 +668,9 @@ components:
     SessionTerminatedEventMessage:
       payload:
         $ref: '#/components/schemas/SessionTerminatedEventPayload'
+    AudioStreamBufferAppendEventMessage:
+      payload:
+        $ref: '#/components/schemas/AudioStreamBufferAppendEventPayload'
 operations:
   Ping:
     channel:
@@ -696,3 +745,9 @@ operations:
     action: receive
     messages:
     - $ref: '#/channels/stream/messages/SessionTerminatedEventMessage'
+  AudioStreamBufferAppend:
+    channel:
+      $ref: '#/channels/stream'
+    action: receive
+    messages:
+    - $ref: '#/channels/stream/messages/AudioStreamBufferAppendEventMessage'
