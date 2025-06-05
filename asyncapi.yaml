@@ -247,6 +247,9 @@ components:
         event: session_updated
         data:
           session_id: VPk_6IQStguK0vJrdJ4mT
+          capabilities:
+            events:
+            - session_updated
           metadata:
             call.id: '1234'
             call.from: '+493010001000'
@@ -256,13 +259,30 @@ components:
         session_id:
           description: Unique ID of the session
           type: string
+        capabilities:
+          anyOf:
+          - $ref: '#/components/schemas/SessionCapabilities'
+          - type: 'null'
         metadata:
+          description: Additional Metadata provided by the session owner
           type:
           - object
           - 'null'
           additionalProperties: true
       required:
       - session_id
+      - capabilities
+    SessionCapabilities:
+      type: object
+      properties:
+        events:
+          description: List of events which will be dispatcheg the lifetime of the session
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+      required:
+      - events
   messages:
     RecordingStartRequestMessage:
       payload:
