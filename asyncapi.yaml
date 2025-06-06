@@ -65,7 +65,7 @@ components:
         - data
       example:
         id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         request: ping
         data: null
     Header:
@@ -107,7 +107,7 @@ components:
         - data
       examples:
       - id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         response: VPk_6IQStguK0vJrdJ4mT
         status: 200
         data: null
@@ -132,7 +132,7 @@ components:
         - data
       example:
         id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         request: audio_stream_start
         data:
           codec: alaw
@@ -173,7 +173,7 @@ components:
         - data
       examples:
       - id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         response: VPk_6IQStguK0vJrdJ4mT
         status: 200
         data: null
@@ -198,7 +198,7 @@ components:
         - data
       example:
         id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         request: audio_stream_stop
         data: null
     AudioStreamStopRequest:
@@ -226,7 +226,7 @@ components:
         - data
       examples:
       - id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         response: VPk_6IQStguK0vJrdJ4mT
         status: 200
         data: null
@@ -251,7 +251,7 @@ components:
         - data
       example:
         id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         request: recording_start
         data:
           tags:
@@ -294,7 +294,7 @@ components:
         - data
       examples:
       - id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         response: VPk_6IQStguK0vJrdJ4mT
         status: 200
         data:
@@ -326,7 +326,7 @@ components:
         - data
       example:
         id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         request: recording_stop
         data: null
     RecordingStopRequest:
@@ -354,7 +354,7 @@ components:
         - data
       examples:
       - id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         response: VPk_6IQStguK0vJrdJ4mT
         status: 200
         data: null
@@ -379,7 +379,7 @@ components:
         - data
       example:
         id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         request: playback_start
         data:
           interrupt: true
@@ -463,7 +463,7 @@ components:
         - data
       examples:
       - id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         response: VPk_6IQStguK0vJrdJ4mT
         status: 200
         data:
@@ -495,7 +495,7 @@ components:
         - data
       example:
         id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         request: application_move
         data:
           application:
@@ -540,7 +540,7 @@ components:
         - data
       examples:
       - id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         response: VPk_6IQStguK0vJrdJ4mT
         status: 200
         data: null
@@ -564,7 +564,7 @@ components:
         - data
       example:
         id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         event: recording_finished
         data:
           recording_id: VPk_6IQStguK0vJrdJ4mT
@@ -593,7 +593,7 @@ components:
         - data
       example:
         id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         event: session_updated
         data:
           session_id: VPk_6IQStguK0vJrdJ4mT
@@ -698,7 +698,7 @@ components:
         - data
       example:
         id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         event: session_terminated
         data:
           session_id: VPk_6IQStguK0vJrdJ4mT
@@ -737,7 +737,7 @@ components:
         - data
       example:
         id: VPk_6IQStguK0vJrdJ4mT
-        ts: 1431648000
+        ts: 1431648000000
         event: audio_stream_buffer_append
         data:
           buffer:
