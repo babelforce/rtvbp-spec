@@ -1,60 +1,24 @@
 {
   "$schema": "https://asyncapi.com/definitions/3.0.0/asyncapi.json",
   "title": "Message",
-  "oneOf": [
+  "anyOf": [
     {
-      "type": "object",
-      "properties": {
-        "request": {
-          "$ref": "#/components/schemas/RequestMessage"
-        }
-      },
-      "required": [
-        "request"
-      ],
-      "additionalProperties": false
+      "$ref": "#/components/schemas/RequestMessage"
     },
     {
-      "type": "object",
-      "properties": {
-        "response": {
-          "$ref": "#/components/schemas/ResponseMessage"
-        }
-      },
-      "required": [
-        "response"
-      ],
-      "additionalProperties": false
+      "$ref": "#/components/schemas/ResponseMessage"
     },
     {
-      "type": "object",
-      "properties": {
-        "event": {
-          "$ref": "#/components/schemas/EventMessage"
-        }
-      },
-      "required": [
-        "event"
-      ],
-      "additionalProperties": false
+      "$ref": "#/components/schemas/EventMessage"
     },
     {
-      "type": "object",
-      "properties": {
-        "binary": {
-          "type": "array",
-          "items": {
-            "type": "integer",
-            "format": "uint8",
-            "minimum": 0,
-            "maximum": 255
-          }
-        }
-      },
-      "required": [
-        "binary"
-      ],
-      "additionalProperties": false
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "format": "uint8",
+        "minimum": 0,
+        "maximum": 255
+      }
     }
   ],
   "components": {
