@@ -8,6 +8,10 @@ channels:
   stream:
     address: /stream
     messages:
+      SessionCreateRequestMessage:
+        $ref: '#/components/messages/SessionCreateRequestMessage'
+      SessionCreateResponseMessage:
+        $ref: '#/components/messages/SessionCreateResponseMessage'
       PingRequestMessage:
         $ref: '#/components/messages/PingRequestMessage'
       PingResponseMessage:
@@ -46,6 +50,173 @@ channels:
         $ref: '#/components/messages/AudioStreamBufferAppendEventMessage'
 components:
   schemas:
+    SessionCreateRequestPayload:
+      type: object
+      additionalProperties: false
+      allOf:
+      - $ref: '#/components/schemas/Header'
+      - title: SessionCreateRequest
+        properties:
+          request:
+            type: string
+            const: session_create
+          data:
+            $ref: '#/components/schemas/SessionCreateRequest'
+        additionalProperties: false
+        required:
+        - kind
+        - method
+        - data
+      example:
+        id: VPk_6IQStguK0vJrdJ4mT
+        ts: 1431648000000
+        request: session_create
+        data:
+          session_id: VPk_6IQStguK0vJrdJ4mT
+          capabilities:
+            events:
+            - session_updated
+            - session_terminated
+            requests:
+            - call_hangup
+            - recording_start
+            - recording_stop
+            audio:
+              direction: both
+              codecs:
+              - alaw
+    Header:
+      type: object
+      properties:
+        id:
+          description: Message ID
+          type: string
+        ts:
+          description: Timestamp
+          type: integer
+          format: int64
+      additionalProperties: false
+      required:
+      - id
+      - ts
+    SessionCreateRequest:
+      type: object
+      properties:
+        session_id:
+          type: string
+        capabilities:
+          description: Session capabilities of the session creator
+          $ref: '#/components/schemas/SessionCapabilities'
+        metadata:
+          description: Additional Metadata provided by the session owner
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+      required:
+      - session_id
+      - capabilities
+    SessionCapabilities:
+      type: object
+      properties:
+        events:
+          description: List of events which will be dispatched the lifetime of the session
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        requests:
+          description: List of requests which are allowed to be sent to the session
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        audio:
+          description: Audio capabilities - set when audio is enabled on the session
+          anyOf:
+          - $ref: '#/components/schemas/AudioCapabilities'
+          - type: 'null'
+      required:
+      - events
+      - requests
+      - audio
+    AudioCapabilities:
+      type: object
+      properties:
+        direction:
+          $ref: '#/components/schemas/AudioDirection'
+        codecs:
+          description: Set of supported codecs
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/AudioCodec'
+      required:
+      - direction
+      - codecs
+    AudioDirection:
+      oneOf:
+      - description: Audio flows into both directions
+        type: string
+        const: both
+      - description: Audio can flow into the session owning side
+        type: string
+        const: in
+      - description: Audio can flow out of the session owning side
+        type: string
+        const: out
+    AudioCodec:
+      type: string
+      enum:
+      - slin
+      - alaw
+    SessionCreateResponsePayload:
+      type: object
+      additionalProperties: false
+      allOf:
+      - $ref: '#/components/schemas/Header'
+      - title: SessionCreateResponse
+        properties:
+          response:
+            type: string
+          status:
+            type: integer
+            format: uint16
+            minimum: 0
+            maximum: 65535
+          data:
+            $ref: '#/components/schemas/SessionCreateResponse'
+        additionalProperties: false
+        required:
+        - response
+        - status
+        - data
+      examples:
+      - id: VPk_6IQStguK0vJrdJ4mT
+        ts: 1431648000000
+        response: VPk_6IQStguK0vJrdJ4mT
+        status: 200
+        data:
+          capabilities:
+            events:
+            - session_updated
+            - session_terminated
+            requests:
+            - call_hangup
+            - recording_start
+            - recording_stop
+            audio:
+              direction: both
+              codecs:
+              - alaw
+    SessionCreateResponse:
+      type: object
+      properties:
+        capabilities:
+          description: Session capabilities of the other end
+          $ref: '#/components/schemas/SessionCapabilities'
+      required:
+      - capabilities
     PingRequestPayload:
       type: object
       additionalProperties: false
@@ -68,20 +239,6 @@ components:
         ts: 1431648000000
         request: ping
         data: null
-    Header:
-      type: object
-      properties:
-        id:
-          description: Message ID
-          type: string
-        ts:
-          description: Timestamp
-          type: integer
-          format: int64
-      additionalProperties: false
-      required:
-      - id
-      - ts
     PingRequest:
       type: 'null'
     PingResponsePayload:
@@ -145,11 +302,6 @@ components:
           - type: 'null'
       required:
       - codec
-    AudioCodec:
-      type: string
-      enum:
-      - slin
-      - alaw
     AudioStreamStartResponsePayload:
       type: object
       additionalProperties: false
@@ -631,55 +783,6 @@ components:
       required:
       - session_id
       - capabilities
-    SessionCapabilities:
-      type: object
-      properties:
-        events:
-          description: List of events which will be dispatched the lifetime of the session
-          type: array
-          uniqueItems: true
-          items:
-            type: string
-        requests:
-          description: List of requests which are allowed to be sent to the session
-          type: array
-          uniqueItems: true
-          items:
-            type: string
-        audio:
-          description: Audio capabilities - set when audio is enabled on the session
-          anyOf:
-          - $ref: '#/components/schemas/AudioCapabilities'
-          - type: 'null'
-      required:
-      - events
-      - requests
-      - audio
-    AudioCapabilities:
-      type: object
-      properties:
-        direction:
-          $ref: '#/components/schemas/AudioDirection'
-        codecs:
-          description: Set of supported codecs
-          type: array
-          uniqueItems: true
-          items:
-            $ref: '#/components/schemas/AudioCodec'
-      required:
-      - direction
-      - codecs
-    AudioDirection:
-      oneOf:
-      - description: Audio flows into both directions
-        type: string
-        const: both
-      - description: Audio can flow into the session owning side
-        type: string
-        const: in
-      - description: Audio can flow out of the session owning side
-        type: string
-        const: out
     SessionTerminatedEventPayload:
       type: object
       additionalProperties: false
@@ -758,6 +861,12 @@ components:
       required:
       - buffer
   messages:
+    SessionCreateRequestMessage:
+      payload:
+        $ref: '#/components/schemas/SessionCreateRequestPayload'
+    SessionCreateResponseMessage:
+      payload:
+        $ref: '#/components/schemas/SessionCreateResponsePayload'
     PingRequestMessage:
       payload:
         $ref: '#/components/schemas/PingRequestPayload'
@@ -813,6 +922,17 @@ components:
       payload:
         $ref: '#/components/schemas/AudioStreamBufferAppendEventPayload'
 operations:
+  SessionCreate:
+    channel:
+      $ref: '#/channels/stream'
+    action: send
+    messages:
+    - $ref: '#/channels/stream/messages/SessionCreateRequestMessage'
+    reply:
+      channel:
+        $ref: '#/channels/stream'
+      messages:
+      - $ref: '#/channels/stream/messages/SessionCreateResponseMessage'
   Ping:
     channel:
       $ref: '#/channels/stream'
