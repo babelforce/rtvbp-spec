@@ -553,10 +553,6 @@ components:
       - $ref: '#/components/schemas/Header'
       - title: RecordingFinishedEvent
         properties:
-          kind:
-            type: string
-            enum:
-            - event
           event:
             type: string
             const: recording_finished
@@ -564,13 +560,11 @@ components:
             $ref: '#/components/schemas/RecordingFinishedEvent'
         additionalProperties: false
         required:
-        - kind
         - event
         - data
       example:
         id: VPk_6IQStguK0vJrdJ4mT
         ts: 1431648000
-        kind: event
         event: recording_finished
         data:
           recording_id: VPk_6IQStguK0vJrdJ4mT
@@ -581,31 +575,25 @@ components:
           type: string
       required:
       - recording_id
-    SessionUpdatedPayload:
+    SessionUpdatedEventPayload:
       type: object
       additionalProperties: false
       allOf:
       - $ref: '#/components/schemas/Header'
-      - title: SessionUpdated
+      - title: SessionUpdatedEvent
         properties:
-          kind:
-            type: string
-            enum:
-            - event
           event:
             type: string
             const: session_updated
           data:
-            $ref: '#/components/schemas/SessionUpdated'
+            $ref: '#/components/schemas/SessionUpdatedEvent'
         additionalProperties: false
         required:
-        - kind
         - event
         - data
       example:
         id: VPk_6IQStguK0vJrdJ4mT
         ts: 1431648000
-        kind: event
         event: session_updated
         data:
           session_id: VPk_6IQStguK0vJrdJ4mT
@@ -624,7 +612,7 @@ components:
           metadata:
             call.id: '1234'
             call.from: '+493010001000'
-    SessionUpdated:
+    SessionUpdatedEvent:
       type: object
       properties:
         session_id:
@@ -692,36 +680,30 @@ components:
       - description: Audio can flow out of the session owning side
         type: string
         const: out
-    SessionTerminatedPayload:
+    SessionTerminatedEventPayload:
       type: object
       additionalProperties: false
       allOf:
       - $ref: '#/components/schemas/Header'
-      - title: SessionTerminated
+      - title: SessionTerminatedEvent
         properties:
-          kind:
-            type: string
-            enum:
-            - event
           event:
             type: string
             const: session_terminated
           data:
-            $ref: '#/components/schemas/SessionTerminated'
+            $ref: '#/components/schemas/SessionTerminatedEvent'
         additionalProperties: false
         required:
-        - kind
         - event
         - data
       example:
         id: VPk_6IQStguK0vJrdJ4mT
         ts: 1431648000
-        kind: event
         event: session_terminated
         data:
           session_id: VPk_6IQStguK0vJrdJ4mT
           reason: normal
-    SessionTerminated:
+    SessionTerminatedEvent:
       type: object
       properties:
         session_id:
@@ -744,10 +726,6 @@ components:
       - $ref: '#/components/schemas/Header'
       - title: AudioStreamBufferAppendEvent
         properties:
-          kind:
-            type: string
-            enum:
-            - event
           event:
             type: string
             const: audio_stream_buffer_append
@@ -755,13 +733,11 @@ components:
             $ref: '#/components/schemas/AudioStreamBufferAppendEvent'
         additionalProperties: false
         required:
-        - kind
         - event
         - data
       example:
         id: VPk_6IQStguK0vJrdJ4mT
         ts: 1431648000
-        kind: event
         event: audio_stream_buffer_append
         data:
           buffer:
@@ -914,27 +890,27 @@ operations:
         $ref: '#/channels/stream'
       messages:
       - $ref: '#/channels/stream/messages/ApplicationMoveResponseMessage'
-  DispatchRecordingFinishedEvent:
+  RecordingFinishedEvent:
     channel:
       $ref: '#/channels/stream'
     action: receive
     messages:
-    - $ref: '#/channels/stream/messages/DispatchRecordingFinishedEventEventMessage'
-  DispatchSessionUpdatedEvent:
+    - $ref: '#/channels/stream/messages/RecordingFinishedEventMessage'
+  SessionUpdatedEvent:
     channel:
       $ref: '#/channels/stream'
     action: receive
     messages:
-    - $ref: '#/channels/stream/messages/DispatchSessionUpdatedEventEventMessage'
-  DispatchSessionTerminatedEvent:
+    - $ref: '#/channels/stream/messages/SessionUpdatedEventMessage'
+  SessionTerminatedEvent:
     channel:
       $ref: '#/channels/stream'
     action: receive
     messages:
-    - $ref: '#/channels/stream/messages/DispatchSessionTerminatedEventEventMessage'
-  DispatchAudioStreamBufferAppendEvent:
+    - $ref: '#/channels/stream/messages/SessionTerminatedEventMessage'
+  AudioStreamBufferAppendEvent:
     channel:
       $ref: '#/channels/stream'
     action: receive
     messages:
-    - $ref: '#/channels/stream/messages/DispatchAudioStreamBufferAppendEventEventMessage'
+    - $ref: '#/channels/stream/messages/AudioStreamBufferAppendEventMessage'
