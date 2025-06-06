@@ -1,616 +1,140 @@
 {
   "$schema": "https://asyncapi.com/definitions/3.0.0/asyncapi.json",
   "title": "Message",
-  "type": "object",
-  "properties": {
-    "id": {
-      "description": "Message ID",
-      "type": "string"
-    },
-    "ts": {
-      "description": "Timestamp",
-      "type": "integer",
-      "format": "int64"
-    },
-    "metadata": {
-      "type": [
-        "object",
-        "null"
-      ],
-      "additionalProperties": true
-    }
-  },
-  "required": [
-    "id",
-    "ts"
-  ],
   "oneOf": [
     {
       "type": "object",
       "properties": {
-        "kind": {
-          "type": "string",
-          "const": "request"
-        },
-        "data": {
-          "$ref": "#/components/schemas/RequestBody"
+        "Request": {
+          "$ref": "#/components/schemas/RequestMessage"
         }
       },
       "required": [
-        "kind",
-        "data"
-      ]
+        "Request"
+      ],
+      "additionalProperties": false
     },
     {
       "type": "object",
       "properties": {
-        "kind": {
-          "type": "string",
-          "const": "response"
-        },
-        "data": {
-          "$ref": "#/components/schemas/Response"
+        "Response": {
+          "$ref": "#/components/schemas/ResponseMessage"
         }
       },
       "required": [
-        "kind",
-        "data"
-      ]
+        "Response"
+      ],
+      "additionalProperties": false
     },
     {
       "type": "object",
       "properties": {
-        "kind": {
-          "type": "string",
-          "const": "event"
-        },
-        "data": {
-          "$ref": "#/components/schemas/Event"
+        "Event": {
+          "$ref": "#/components/schemas/EventMessage"
         }
       },
       "required": [
-        "kind",
-        "data"
-      ]
+        "Event"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "Binary": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0,
+            "maximum": 255
+          }
+        }
+      },
+      "required": [
+        "Binary"
+      ],
+      "additionalProperties": false
     }
   ],
   "components": {
     "schemas": {
-      "RequestBody": {
-        "oneOf": [
-          {
-            "description": "Closes the current session",
-            "type": "object",
-            "properties": {
-              "method": {
-                "type": "string",
-                "const": "session_close"
-              },
-              "params": {
-                "type": "object",
-                "properties": {
-                  "reason": {
-                    "$ref": "#/components/schemas/SessionCloseReason"
-                  }
-                },
-                "required": [
-                  "reason"
-                ]
-              }
-            },
-            "required": [
-              "method",
-              "params"
-            ]
-          },
-          {
-            "description": "Hangup terminates the current call",
-            "type": "object",
-            "properties": {
-              "method": {
-                "type": "string",
-                "const": "hangup"
-              }
-            },
-            "required": [
-              "method"
-            ]
-          },
-          {
-            "type": "object",
-            "properties": {
-              "method": {
-                "type": "string",
-                "const": "move"
-              },
-              "params": {
-                "$ref": "#/components/schemas/Move"
-              }
-            },
-            "required": [
-              "method",
-              "params"
-            ]
-          },
-          {
-            "description": "Start a new recording",
-            "type": "object",
-            "properties": {
-              "method": {
-                "type": "string",
-                "const": "recording_start"
-              },
-              "params": {
-                "$ref": "#/components/schemas/RecordingStartRequest"
-              }
-            },
-            "required": [
-              "method",
-              "params"
-            ]
-          },
-          {
-            "description": "Stop the current recording",
-            "type": "object",
-            "properties": {
-              "method": {
-                "type": "string",
-                "const": "recording_stop"
-              },
-              "params": {
-                "$ref": "#/components/schemas/RecordingStopRequest"
-              }
-            },
-            "required": [
-              "method",
-              "params"
-            ]
-          },
-          {
-            "description": "Playback audio content",
-            "type": "object",
-            "properties": {
-              "method": {
-                "type": "string",
-                "const": "playback"
-              },
-              "params": {
-                "type": "object",
-                "properties": {
-                  "interrupt": {
-                    "type": [
-                      "boolean",
-                      "null"
-                    ]
-                  }
-                },
-                "required": [
-                  "interrupt"
-                ],
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "url": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "url"
-                    ]
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "language": {
-                        "type": "string"
-                      },
-                      "voice": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
-                      },
-                      "text": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "language",
-                      "voice",
-                      "text"
-                    ]
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "id"
-                    ]
-                  },
-                  {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/PlaybackContent"
-                    }
-                  }
-                ]
-              }
-            },
-            "required": [
-              "method",
-              "params"
-            ]
-          },
-          {
-            "description": "Sets session variables",
-            "type": "object",
-            "properties": {
-              "method": {
-                "type": "string",
-                "const": "session_set"
-              },
-              "params": {
-                "type": "object",
-                "additionalProperties": true
-              }
-            },
-            "required": [
-              "method",
-              "params"
-            ]
-          },
-          {
-            "description": "Dispatches a custom event in the babelforce platform",
-            "type": "object",
-            "properties": {
-              "method": {
-                "type": "string",
-                "const": "event_dispatch"
-              },
-              "params": {
-                "type": "object",
-                "properties": {
-                  "event": {
-                    "type": "string"
-                  },
-                  "data": {
-                    "type": "object",
-                    "additionalProperties": true
-                  }
-                },
-                "required": [
-                  "event",
-                  "data"
-                ]
-              }
-            },
-            "required": [
-              "method",
-              "params"
-            ]
-          },
-          {
-            "description": "Probe the stream",
-            "type": "object",
-            "properties": {
-              "method": {
-                "type": "string",
-                "const": "ping"
-              },
-              "params": {
-                "$ref": "#/components/schemas/PingRequest"
-              }
-            },
-            "required": [
-              "method",
-              "params"
-            ]
-          }
-        ]
-      },
-      "SessionCloseReason": {
-        "type": "string",
-        "enum": [
-          "normal",
-          "error",
-          "timeout"
-        ]
-      },
-      "Move": {
-        "oneOf": [
-          {
-            "type": "string",
-            "enum": [
-              "next"
-            ]
-          },
-          {
-            "type": "object",
-            "properties": {
-              "application": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "id"
-                ]
-              }
-            },
-            "required": [
-              "application"
-            ],
-            "additionalProperties": false
-          }
-        ]
-      },
-      "RecordingStartRequest": {
+      "RequestMessage": {
         "type": "object",
         "properties": {
-          "tags": {
-            "description": "Tags to store alongside the Recording",
-            "type": [
-              "array",
-              "null"
-            ],
-            "uniqueItems": true,
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "tags"
-        ]
-      },
-      "RecordingStopRequest": {
-        "type": "null"
-      },
-      "PlaybackContent": {
-        "anyOf": [
-          {
-            "type": "object",
-            "properties": {
-              "url": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "url"
-            ]
-          },
-          {
-            "type": "object",
-            "properties": {
-              "language": {
-                "type": "string"
-              },
-              "voice": {
-                "type": [
-                  "string",
-                  "null"
-                ]
-              },
-              "text": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "language",
-              "voice",
-              "text"
-            ]
-          },
-          {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "id"
-            ]
-          },
-          {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PlaybackContent"
-            }
-          }
-        ]
-      },
-      "PingRequest": {
-        "type": "null"
-      },
-      "Response": {
-        "type": "object",
-        "properties": {
-          "request_id": {
+          "id": {
+            "description": "Message ID",
             "type": "string"
           },
-          "body": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ResponseBody"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
-        },
-        "required": [
-          "request_id"
-        ]
-      },
-      "ResponseBody": {
-        "anyOf": [
-          {
-            "type": "null"
+          "ts": {
+            "description": "Timestamp",
+            "type": "integer",
+            "format": "int64"
           },
-          {
-            "type": "object"
-          },
-          true
-        ]
-      },
-      "Event": {
-        "oneOf": [
-          {
-            "type": "object",
-            "properties": {
-              "event": {
-                "type": "string",
-                "const": "audio_stream_buffer_append"
-              },
-              "data": {
-                "$ref": "#/components/schemas/AudioStreamBufferAppendEvent"
-              }
-            },
-            "required": [
-              "event",
-              "data"
-            ]
-          },
-          {
-            "type": "object",
-            "properties": {
-              "event": {
-                "type": "string",
-                "const": "audio_stream_stopped"
-              }
-            },
-            "required": [
-              "event"
-            ]
-          },
-          {
-            "type": "object",
-            "properties": {
-              "event": {
-                "type": "string",
-                "const": "session_closed"
-              }
-            },
-            "required": [
-              "event"
-            ]
-          },
-          {
-            "type": "object",
-            "properties": {
-              "event": {
-                "type": "string",
-                "const": "dtmf_received"
-              },
-              "data": {
-                "type": "object",
-                "properties": {
-                  "digit": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 1
-                  },
-                  "duration": {
-                    "type": "integer",
-                    "format": "uint32",
-                    "minimum": 0
-                  }
-                },
-                "required": [
-                  "digit",
-                  "duration"
-                ]
-              }
-            },
-            "required": [
-              "event",
-              "data"
-            ]
-          },
-          {
-            "type": "object",
-            "properties": {
-              "event": {
-                "type": "string",
-                "const": "log_message"
-              },
-              "data": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "event",
-              "data"
-            ]
-          },
-          {
-            "type": "object",
-            "properties": {
-              "event": {
-                "type": "string",
-                "const": "error"
-              },
-              "data": {
-                "$ref": "#/components/schemas/ErrorEvent"
-              }
-            },
-            "required": [
-              "event",
-              "data"
-            ]
-          }
-        ]
-      },
-      "AudioStreamBufferAppendEvent": {
-        "type": "object",
-        "properties": {
-          "buffer": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "uint8",
-              "minimum": 0,
-              "maximum": 255
-            }
-          }
-        },
-        "required": [
-          "buffer"
-        ]
-      },
-      "ErrorEvent": {
-        "type": "object",
-        "properties": {
-          "message": {
+          "request": {
             "type": "string"
           },
-          "code": {
+          "data": true
+        },
+        "required": [
+          "id",
+          "ts",
+          "request",
+          "data"
+        ]
+      },
+      "ResponseMessage": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "Message ID",
+            "type": "string"
+          },
+          "ts": {
+            "description": "Timestamp",
+            "type": "integer",
+            "format": "int64"
+          },
+          "response": {
+            "description": "Request message ID",
+            "type": "string"
+          },
+          "status": {
             "type": "integer",
             "format": "uint16",
             "minimum": 0,
             "maximum": 65535
           },
-          "details": {
-            "type": [
-              "string",
-              "null"
-            ]
-          }
+          "data": true
         },
         "required": [
-          "message",
-          "code",
-          "details"
+          "id",
+          "ts",
+          "response",
+          "status"
+        ]
+      },
+      "EventMessage": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "Message ID",
+            "type": "string"
+          },
+          "ts": {
+            "description": "Timestamp",
+            "type": "integer",
+            "format": "int64"
+          },
+          "event": {
+            "type": "string"
+          },
+          "data": true
+        },
+        "required": [
+          "id",
+          "ts",
+          "event"
         ]
       }
     }
