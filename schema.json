@@ -5,43 +5,43 @@
     {
       "type": "object",
       "properties": {
-        "Request": {
+        "request": {
           "$ref": "#/components/schemas/RequestMessage"
         }
       },
       "required": [
-        "Request"
+        "request"
       ],
       "additionalProperties": false
     },
     {
       "type": "object",
       "properties": {
-        "Response": {
+        "response": {
           "$ref": "#/components/schemas/ResponseMessage"
         }
       },
       "required": [
-        "Response"
+        "response"
       ],
       "additionalProperties": false
     },
     {
       "type": "object",
       "properties": {
-        "Event": {
+        "event": {
           "$ref": "#/components/schemas/EventMessage"
         }
       },
       "required": [
-        "Event"
+        "event"
       ],
       "additionalProperties": false
     },
     {
       "type": "object",
       "properties": {
-        "Binary": {
+        "binary": {
           "type": "array",
           "items": {
             "type": "integer",
@@ -52,7 +52,7 @@
         }
       },
       "required": [
-        "Binary"
+        "binary"
       ],
       "additionalProperties": false
     }
